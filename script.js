@@ -9,7 +9,7 @@ let client;
 
 // connect ke Hugging Face Space
 (async () => {
-  client = await Client.connect("yogssss-projek-akhir");
+  client = await Client.connect("Yogssss/Projek-Akhir");
 })();
 
 predictBtn.onclick = async () => {
