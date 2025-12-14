@@ -1,31 +1,82 @@
-body {
-  font-family: 'Segoe UI', sans-serif;
+/* RESET */
+* {
   margin: 0;
-  background: #f8f9fa;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background: #f6f8fa;
   color: #333;
 }
 
+/* HEADER */
 header {
-  background: linear-gradient(135deg, #f9d423, #ffb347);
-  padding: 40px;
+  background: linear-gradient(135deg, #fbb034, #ffdd00);
+  padding: 40px 20px;
   text-align: center;
-  color: #fff;
 }
 
+header h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+header p {
+  font-size: 1.1rem;
+}
+
+/* SECTION UMUM */
 section {
-  padding: 40px;
-  max-width: 1000px;
-  margin: auto;
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
 }
 
-.app iframe {
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+/* INFO MBG */
+.info {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
+.info h2 {
+  margin-bottom: 15px;
+}
+
+/* APP SECTION */
+.app h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* WRAPPER IFRAME */
+.iframe-wrapper {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+
+  /* biar responsive */
+  display: flex;
+  justify-content: center;
+}
+
+/* IFRAME ITSELF */
+.iframe-wrapper iframe {
+  width: 100%;
+  max-width: 900px;
+  height: 480px;
+  border-radius: 16px;
+  border: none;
+}
+
+/* FOOTER */
 footer {
   text-align: center;
-  padding: 20px;
-  background: #222;
-  color: #fff;
+  padding: 30px;
+  color: #777;
+  font-size: 0.9rem;
 }
