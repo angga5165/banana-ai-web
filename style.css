@@ -108,10 +108,11 @@ footer {
   background: #eab308;
 }
 
-#preview img {
+#preview {
+  display: none;
   max-width: 100%;
-  margin-top: 15px;
-  border-radius: 8px;
+  margin: 15px auto;
+  border-radius: 10px;
 }
 
 #result {
