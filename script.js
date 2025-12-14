@@ -1,43 +1,52 @@
-async function predict() {
-  const input = document.getElementById("imageInput");
-  const result = document.getElementById("result");
-  const preview = document.getElementById("preview");
+const imageInput = document.getElementById("imageInput");
+const preview = document.getElementById("preview");
+const resultDiv = document.getElementById("result");
+const predictBtn = document.getElementById("predictBtn");
 
-  if (!input.files.length) {
+let selectedFile = null;
+
+// Preview gambar
+imageInput.addEventListener("change", () => {
+  selectedFile = imageInput.files[0];
+
+  if (selectedFile) {
+    preview.src = URL.createObjectURL(selectedFile);
+    preview.style.display = "block";
+    resultDiv.innerHTML = "";
+  }
+});
+
+predictBtn.addEventListener("click", async () => {
+  if (!selectedFile) {
     alert("Upload gambar dulu!");
     return;
   }
 
-  const file = input.files[0];
-
-  // preview image
-  preview.src = URL.createObjectURL(file);
-  preview.style.display = "block";
-
-  result.innerHTML = "⏳ Memproses gambar...";
+  resultDiv.innerHTML = "⏳ Memproses gambar...";
 
   try {
-    // CONNECT KE HUGGING FACE SPACE
+    // 🔥 CONNECT KE HUGGING FACE SPACE
     const client = await window.gradioClient(
-      "https://yogssss-projek-akhir.hf.space"
+      "yogssss-projek-akhir"
     );
 
-    // PANGGIL FUNCTION PERTAMA (fn index 0)
-    const response = await client.predict(0, {
-      image_input: file
+    // 🔥 PANGGIL FUNCTION PERTAMA (fn=classify_image)
+    const result = await client.predict(0, {
+      image: selectedFile
     });
 
-    // response.data sesuai return classify_image()
-    const text = response.data[0];
-    const confidence = response.data[1];
+    // Output sesuai app.py:
+    // return custom_message, confidences
+    const predictionText = result.data[0];
+    const confidence = result.data[1];
 
-    result.innerHTML = `
+    resultDiv.innerHTML = `
       <h3>✅ Hasil Prediksi</h3>
-      <p><b>${text}</b></p>
+      <p><b>${predictionText}</b></p>
       <pre>${JSON.stringify(confidence, null, 2)}</pre>
     `;
   } catch (err) {
     console.error(err);
-    result.innerHTML = "❌ Gagal memproses gambar";
+    resultDiv.innerHTML = "❌ Gagal memproses gambar";
   }
-}
+});
