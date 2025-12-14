@@ -51,13 +51,73 @@ predictBtn.onclick = async () => {
       file
     ]);
 
-    const text = result.data[0];
-    const confidence = result.data[1];
+    // --- PARSE HASIL ---
+    // Struktur result: { label: "Banana_... ", confidences: [...] }
+    const topLabel = result.data[0].label;
+    const confidences = result.data[0].confidences;
+
+    // Tentukan Status (Sehat/Busuk)
+    const isHealthy = topLabel.toLowerCase().includes("healthy");
+    const isRotten = topLabel.toLowerCase().includes("rotten");
+
+    // Config UI berdasarkan status
+    let statusConfig = {
+      className: "verdict-neutral",
+      icon: "🍌",
+      title: "Hasil Tidak Diketahui",
+      desc: "Coba gambar lain."
+    };
+
+    if (isHealthy) {
+      statusConfig = {
+        className: "verdict-safe",
+        icon: "✨",
+        title: "Pisang Sehat & Segar",
+        desc: "Aman dan bergizi untuk dikonsumsi anak-anak."
+      };
+    } else if (isRotten) {
+      statusConfig = {
+        className: "verdict-rotten",
+        icon: "🦠",
+        title: "Pisang Busuk / Tak Layak",
+        desc: "Sebaiknya dibuang, berisiko bagi kesehatan."
+      };
+    }
+
+    // --- RENDER UI ---
+    let confidenceHTML = confidences.map(item => {
+      const percent = (item.confidence * 100).toFixed(1);
+      const labelClean = item.label.replace(/_/g, " "); // Hapus underscore
+      return `
+            <div class="confidence-item">
+                <div class="bar-label">
+                    <span>${labelClean}</span>
+                    <span>${percent}%</span>
+                </div>
+                <div class="bar-bg">
+                    <div class="bar-fill" style="width: ${percent}%;"></div>
+                </div>
+            </div>
+        `;
+    }).join("");
 
     resultDiv.innerHTML = `
-      <h3>✅ Hasil Prediksi</h3>
-      <p><b>${text}</b></p>
-      <pre>${JSON.stringify(confidence, null, 2)}</pre>
+      <div class="result-card">
+        <!-- Main Verdict Header -->
+        <div class="main-verdict ${statusConfig.className}">
+            <div class="icon">${statusConfig.icon}</div>
+            <div class="text">
+                <h3>${statusConfig.title}</h3>
+                <p>${statusConfig.desc}</p>
+            </div>
+        </div>
+
+        <!-- Detail Progress Bars -->
+        <div class="confidence-list">
+            <h4>Analisis AI:</h4>
+            ${confidenceHTML}
+        </div>
+      </div>
     `;
   } catch (err) {
     console.error(err);
