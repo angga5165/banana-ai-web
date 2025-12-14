@@ -52,64 +52,66 @@ predictBtn.onclick = async () => {
     ]);
 
     // --- PARSE HASIL ---
-    // result.data[0] = String pesan ("Gambar ini adalah...")
-    // result.data[1] = Object Confidences { "Banana_Healthy": 0.9, ... }
+    // result.data[0] = String pesan
+    // result.data[1] = Object { label: "...", confidences: [{label: "...", confidence: 0.9}, ...] }
 
-    // Ambil dictionary confidence dari data[1]
-    const confidencesDict = result.data[1];
+    const outputObject = result.data[1];
+    const confidences = outputObject.confidences;
 
-    // Convert object ke array dan urutkan dari yang terbesar
-    const confidences = Object.entries(confidencesDict)
-      .map(([label, confidence]) => ({ label, confidence }))
-      .sort((a, b) => b.confidence - a.confidence);
+    // Cari persentase masing-masing
+    // Label mungkin "Banana_Healthy" dan "Banana_Rotten" atau varian lain
+    // Kita cari yang mengandung kata "healthy" atau "rotten" (case insensitive)
 
-    // Ambil label dengan confidence tertinggi
-    const topLabel = confidences[0].label;
+    let healthyScore = 0;
+    let rottenScore = 0;
 
-    // Tentukan Status (Sehat/Busuk)
-    const isHealthy = topLabel.toLowerCase().includes("healthy");
-    const isRotten = topLabel.toLowerCase().includes("rotten");
+    confidences.forEach(item => {
+      const lbl = item.label.toLowerCase();
+      if (lbl.includes("healthy")) {
+        healthyScore = item.confidence;
+      } else if (lbl.includes("rotten")) {
+        rottenScore = item.confidence;
+      }
+    });
 
-    // Config UI berdasarkan status
+    // Tentukan Pemenang
+    const isHealthy = healthyScore > rottenScore;
+
+    // Config UI
     let statusConfig = {
-      className: "verdict-neutral",
-      icon: "🍌",
-      title: "Hasil Tidak Diketahui",
-      desc: "Coba gambar lain."
+      className: isHealthy ? "verdict-safe" : "verdict-rotten",
+      icon: isHealthy ? "✨" : "🦠",
+      title: isHealthy ? "Pisang Sehat & Segar" : "Pisang Busuk / Tak Layak",
+      desc: isHealthy
+        ? "Aman dan bergizi untuk dikonsumsi anak-anak."
+        : "Sebaiknya dibuang, berisiko bagi kesehatan."
     };
 
-    if (isHealthy) {
-      statusConfig = {
-        className: "verdict-safe",
-        icon: "✨",
-        title: "Pisang Sehat & Segar",
-        desc: "Aman dan bergizi untuk dikonsumsi anak-anak."
-      };
-    } else if (isRotten) {
-      statusConfig = {
-        className: "verdict-rotten",
-        icon: "🦠",
-        title: "Pisang Busuk / Tak Layak",
-        desc: "Sebaiknya dibuang, berisiko bagi kesehatan."
-      };
-    }
+    // Format Persentase
+    const healthyPercent = (healthyScore * 100).toFixed(1);
+    const rottenPercent = (rottenScore * 100).toFixed(1);
 
-    // --- RENDER UI ---
-    let confidenceHTML = confidences.map(item => {
-      const percent = (item.confidence * 100).toFixed(1);
-      const labelClean = item.label.replace(/_/g, " "); // Hapus underscore
-      return `
-            <div class="confidence-item">
-                <div class="bar-label">
-                    <span>${labelClean}</span>
-                    <span>${percent}%</span>
-                </div>
-                <div class="bar-bg">
-                    <div class="bar-fill" style="width: ${percent}%;"></div>
-                </div>
-            </div>
-        `;
-    }).join("");
+    // Render HTML sederhana untuk 2 bar ini
+    const confidenceHTML = `
+      <div class="confidence-item">
+          <div class="bar-label">
+              <span>🍌 Pisang Sehat</span>
+              <span>${healthyPercent}%</span>
+          </div>
+          <div class="bar-bg">
+              <div class="bar-fill" style="width: ${healthyPercent}%; background-color: #10b981;"></div>
+          </div>
+      </div>
+      <div class="confidence-item">
+           <div class="bar-label">
+              <span>🦠 Pisang Busuk</span>
+              <span>${rottenPercent}%</span>
+          </div>
+          <div class="bar-bg">
+              <div class="bar-fill" style="width: ${rottenPercent}%; background-color: #ef4444;"></div>
+          </div>
+      </div>
+    `;
 
     resultDiv.innerHTML = `
       <div class="result-card">
