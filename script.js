@@ -21,6 +21,10 @@ predictBtn.innerText = "⏳ Menghubungkan ke Server...";
     predictBtn.disabled = false;
     predictBtn.innerText = "Prediksi";
     console.log("Terhubung ke Hugging Face Space!");
+
+    // Debug: Cek nama endpoint API
+    const apiInfo = await client.view_api();
+    console.log("API Info:", apiInfo);
   } catch (error) {
     console.error("Gagal connect:", error);
     predictBtn.innerText = "❌ Gagal Terhubung";
