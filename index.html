@@ -27,12 +27,16 @@
 
   <div class="detector-box">
     <input type="file" id="imageInput" accept="image/*">
+    <img id="preview" style="display:none; margin-top:15px; max-width:100%; border-radius:10px;">
+    
     <button onclick="predict()">Prediksi</button>
 
-    <div id="preview"></div>
     <div id="result"></div>
   </div>
 </section>
+
+<script src="https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js"></script>
+<script src="script.js"></script>
 
 <footer>
   <p>© 2025 | CNN TensorFlow + Keras | HIMATIKA</p>
@@ -46,3 +50,4 @@
 
 </body>
 </html>
+
