@@ -1,4 +1,4 @@
-import { Client } from "@gradio/client";
+import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client/+esm";
 
 const predictBtn = document.getElementById("predictBtn");
 const imageInput = document.getElementById("imageInput");
