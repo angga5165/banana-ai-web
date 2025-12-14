@@ -80,3 +80,41 @@ footer {
   color: #777;
   font-size: 0.9rem;
 }
+
+.detector-box {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 25px;
+  border-radius: 12px;
+  background: #fffbea;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.detector-box input {
+  margin-bottom: 15px;
+}
+
+.detector-box button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #facc15;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.detector-box button:hover {
+  background: #eab308;
+}
+
+#preview img {
+  max-width: 100%;
+  margin-top: 15px;
+  border-radius: 8px;
+}
+
+#result {
+  margin-top: 15px;
+  font-size: 16px;
+}
