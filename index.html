@@ -21,33 +21,26 @@
     berada dalam kondisi sehat dan layak konsumsi.
   </p>
 </section>
-
 <section class="app">
   <h2>📷 Coba Deteksi Pisang</h2>
 
   <div class="detector-box">
     <input type="file" id="imageInput" accept="image/*">
-    <img id="preview" style="display:none; margin-top:15px; max-width:100%; border-radius:10px;">
-    
-    <button onclick="predict()">Prediksi</button>
+    <img id="preview" style="display:none; max-width:250px; margin:15px auto;">
+    <button id="predictBtn">Prediksi</button>
 
     <div id="result"></div>
   </div>
 </section>
 
+<!-- PENTING -->
 <script src="https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js"></script>
 <script src="script.js"></script>
 
 <footer>
-  <p>© 2025 | CNN TensorFlow + Keras | HIMATIKA</p>
+  <p>© 2025 | CNN TensorFlow + Keras | Yogi Prayoga</p>
 </footer>
-
-<!-- ✅ Gradio Client -->
-<script src="https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js"></script>
-
-<!-- ✅ SCRIPT KAMU -->
-<script src="script.js"></script>
-
 </body>
 </html>
+
 
