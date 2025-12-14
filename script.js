@@ -52,9 +52,19 @@ predictBtn.onclick = async () => {
     ]);
 
     // --- PARSE HASIL ---
-    // Struktur result: { label: "Banana_... ", confidences: [...] }
-    const topLabel = result.data[0].label;
-    const confidences = result.data[0].confidences;
+    // result.data[0] = String pesan ("Gambar ini adalah...")
+    // result.data[1] = Object Confidences { "Banana_Healthy": 0.9, ... }
+
+    // Ambil dictionary confidence dari data[1]
+    const confidencesDict = result.data[1];
+
+    // Convert object ke array dan urutkan dari yang terbesar
+    const confidences = Object.entries(confidencesDict)
+      .map(([label, confidence]) => ({ label, confidence }))
+      .sort((a, b) => b.confidence - a.confidence);
+
+    // Ambil label dengan confidence tertinggi
+    const topLabel = confidences[0].label;
 
     // Tentukan Status (Sehat/Busuk)
     const isHealthy = topLabel.toLowerCase().includes("healthy");
