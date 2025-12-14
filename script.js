@@ -1,7 +1,7 @@
 async function predict() {
   const input = document.getElementById("imageInput");
+  const result = document.getElementById("result");
   const preview = document.getElementById("preview");
-  const resultDiv = document.getElementById("result");
 
   if (!input.files.length) {
     alert("Upload gambar dulu!");
@@ -9,48 +9,35 @@ async function predict() {
   }
 
   const file = input.files[0];
-  const reader = new FileReader();
 
-  reader.onload = async () => {
-    // TAMPILKAN PREVIEW
-    preview.src = reader.result;
-    preview.style.display = "block";
+  // preview image
+  preview.src = URL.createObjectURL(file);
+  preview.style.display = "block";
 
-    resultDiv.innerHTML = "⏳ Memproses...";
+  result.innerHTML = "⏳ Memproses gambar...";
 
-    try {
-      const response = await fetch(
-        "https://yogssss-projek-akhir.hf.space/api/predict",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            data: [reader.result] // ⬅️ PENTING: KIRIM FULL DATA URL
-          })
-        }
-      );
+  try {
+    // CONNECT KE HUGGING FACE SPACE
+    const client = await window.gradioClient(
+      "https://yogssss-projek-akhir.hf.space"
+    );
 
-      const data = await response.json();
+    // PANGGIL FUNCTION PERTAMA (fn index 0)
+    const response = await client.predict(0, {
+      image_input: file
+    });
 
-      if (!data.data) {
-        throw new Error("Format response salah");
-      }
+    // response.data sesuai return classify_image()
+    const text = response.data[0];
+    const confidence = response.data[1];
 
-      const predictionText = data.data[0];
-      const confidence = data.data[1];
-
-      resultDiv.innerHTML = `
-        <h3>✅ Hasil Prediksi</h3>
-        <p><b>${predictionText}</b></p>
-        <pre>${JSON.stringify(confidence, null, 2)}</pre>
-      `;
-    } catch (err) {
-      console.error(err);
-      resultDiv.innerHTML = "❌ Gagal memproses gambar";
-    }
-  };
-
-  reader.readAsDataURL(file);
+    result.innerHTML = `
+      <h3>✅ Hasil Prediksi</h3>
+      <p><b>${text}</b></p>
+      <pre>${JSON.stringify(confidence, null, 2)}</pre>
+    `;
+  } catch (err) {
+    console.error(err);
+    result.innerHTML = "❌ Gagal memproses gambar";
+  }
 }
