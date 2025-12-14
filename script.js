@@ -47,7 +47,7 @@ predictBtn.onclick = async () => {
   resultDiv.innerHTML = "⏳ Memproses...";
 
   try {
-    const result = await client.predict("/predict", [
+    const result = await client.predict("/classify_image", [
       file
     ]);
 
