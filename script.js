@@ -8,8 +8,24 @@ const previewImg = document.getElementById("preview");
 let client;
 
 // connect ke Hugging Face Space
+// Initial State
+predictBtn.disabled = true;
+predictBtn.innerText = "⏳ Menghubungkan ke Server...";
+
+// connect ke Hugging Face Space
 (async () => {
-  client = await Client.connect("Yogssss/Projek-Akhir");
+  try {
+    client = await Client.connect("Yogssss/Projek-Akhir");
+
+    // Sukses connect
+    predictBtn.disabled = false;
+    predictBtn.innerText = "Prediksi";
+    console.log("Terhubung ke Hugging Face Space!");
+  } catch (error) {
+    console.error("Gagal connect:", error);
+    predictBtn.innerText = "❌ Gagal Terhubung";
+    resultDiv.innerHTML = `<p style="color:red">Gagal terhubung ke server AI. Coba refresh halaman.</p>`;
+  }
 })();
 
 predictBtn.onclick = async () => {
