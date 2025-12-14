@@ -23,21 +23,23 @@
   </section>
 
   <section class="app">
-    <h2>📷 Coba Deteksi Pisang</h2>
-
-	<div class="iframe-wrapper">
-		<iframe
-			src="https://yogssss-projek-akhir.hf.space"
-			frameborder="0"
-			allow="camera; microphone"
-		></iframe>
+	<h2>📷 Coba Deteksi Pisang</h2>
+	
+	<div class="detector-box">
+		<input type="file" id="imageInput" accept="image/*">
+	    <button onclick="predict()">Prediksi</button>
+	
+	    <div id="preview"></div>
+	    <div id="result"></div>
 	</div>
-  </section>
-
+  </section>	
+  <script src="script.js"></script>
+	
   <footer>
     <p>© 2025 | CNN TensorFlow + Keras | HIMATIKA</p>
   </footer>
 
 </body>
 </html>
+
 
