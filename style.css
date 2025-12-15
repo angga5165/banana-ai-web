@@ -55,7 +55,7 @@ header p {
 
 /* SECTIONS */
 section {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 2rem auto;
   padding: 0 1.5rem;
 }
@@ -80,6 +80,12 @@ section {
   text-align: center;
   background: white;
   border: 1px solid #e2e8f0;
+}
+
+.detector-box h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  color: #1e293b;
 }
 
 /* INPUT AREA */
@@ -359,5 +365,96 @@ footer {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* 3-BOX GRID LAYOUT */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  /* Detector takes more space */
+  gap: 2rem;
+  align-items: start;
+}
+
+.info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.info-box {
+  background: var(--white);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid #e2e8f0;
+}
+
+/* Flow Styles */
+.flow-steps {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.step-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.step-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.step-text strong {
+  display: block;
+  font-size: 1rem;
+  color: #334155;
+  margin-bottom: 0.25rem;
+}
+
+.step-text p {
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+/* Video Styles */
+.video-placeholder {
+  margin-top: 1rem;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #f1f5f9;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  font-weight: 500;
+  border: 2px dashed #cbd5e1;
+}
+
+/* Responsive Grid */
+@media (max-width: 900px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .info-section {
+    flex-direction: row;
+    /* Side by side on tablet? or stack? Let's stack for simplicity */
+    flex-direction: column;
   }
 }
