@@ -108,10 +108,14 @@
         <!-- BOTTOM RIGHT: VIDEO TUTORIAL -->
         <div class="info-box video-box">
           <h3>📺 Video Tutorial</h3>
-          <div class="video-placeholder">
-            <p>Video Tutorial Coming Soon</p>
-            <!-- Placeholder for iframe -->
-            <!-- <iframe src="https://www.youtube.com/embed/example" frameborder="0"></iframe> -->
+          <div class="video-container">
+            <div class="video-overlay" id="videoOverlay">
+              <div class="play-button">▶</div>
+            </div>
+            <video id="tutorial-video" controls>
+              <source src="Video Tutorial.mp4" type="video/mp4">
+              Browser Anda tidak mendukung tag video.
+            </video>
           </div>
         </div>
 
@@ -121,8 +125,9 @@
   </section>
 
   <script type="module" src="script.js"></script>
+
   <footer>
-    <p>© 2025 | CNN | TensorFlow | Keras | Hugging Face | Vercel</p>
+    <p>© 2025 | CNN TensorFlow + Keras | Yogi Prayoga</p>
   </footer>
 </body>
 
