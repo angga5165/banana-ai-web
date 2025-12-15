@@ -118,7 +118,6 @@ document.addEventListener("paste", (e) => {
 });
 
 // --- COMMON PREVIEW LOGIC ---
-// --- COMMON PREVIEW LOGIC ---
 function setPreview(fileOrBlob) {
   currentFile = fileOrBlob;
   previewImg.src = URL.createObjectURL(fileOrBlob);
@@ -199,42 +198,73 @@ predictBtn.onclick = async () => {
         : "Sebaiknya dibuang, berisiko bagi kesehatan."
     };
 
-    resultDiv.innerHTML = `
-          <div class="result-card">
-            <div class="main-verdict ${statusConfig.className}">
-                <div class="icon">${statusConfig.icon}</div>
-                <div class="text">
-                    <h3>${statusConfig.title}</h3>
-                    <p>${statusConfig.desc}</p>
-                </div>
-            </div>
+    // DATA DARI PPT
 
-            <div class="confidence-list">
-                <h4>Analisis AI:</h4>
-                <div class="confidence-item">
-                    <div class="bar-label">
-                        <span>🍌 Pisang Sehat</span>
-                        <span>${healthyPercent}%</span>
-                    </div>
-                    <div class="bar-bg">
-                        <div class="bar-fill" style="width: ${healthyPercent}%; background-color: #10b981;"></div>
-                    </div>
+    const nutritionInfo = isHealthy
+      ? `<strong>✅ Kualitas Standar MBG</strong>
+           Mengandung Kalium tinggi & Vitamin B6. Sumber energi instan yang higienis untuk pertumbuhan anak.`
+      : `<strong>⚠️ Bahaya Keamanan Pangan</strong>
+           Potensi kontaminasi bakteri & jamur. Kualitas gizi menurun drastis. Tidak memenuhi syarat MBG.`;
+
+    resultDiv.innerHTML = `
+      <div class="result-card">
+
+
+        <div class="main-verdict ${statusConfig.className}">
+            <div class="icon">${statusConfig.icon}</div>
+            <div class="text">
+                <h3>${statusConfig.title}</h3>
+                <p>${statusConfig.desc}</p>
+            </div>
+        </div>
+
+        <div class="confidence-list">
+            <h4>Analisis AI:</h4>
+            <div class="confidence-item">
+                <div class="bar-label">
+                    <span>🍌 Pisang Sehat</span>
+                    <span>${healthyPercent}%</span>
                 </div>
-                <div class="confidence-item">
-                     <div class="bar-label">
-                        <span>🦠 Pisang Busuk</span>
-                        <span>${rottenPercent}%</span>
-                    </div>
-                    <div class="bar-bg">
-                        <div class="bar-fill" style="width: ${rottenPercent}%; background-color: #ef4444;"></div>
-                    </div>
+                <div class="bar-bg">
+                    <div class="bar-fill" style="width: ${healthyPercent}%; background-color: #10b981;"></div>
                 </div>
             </div>
-          </div>
-        `;
+            <div class="confidence-item">
+                 <div class="bar-label">
+                    <span>🦠 Pisang Busuk</span>
+                    <span>${rottenPercent}%</span>
+                </div>
+                <div class="bar-bg">
+                    <div class="bar-fill" style="width: ${rottenPercent}%; background-color: #ef4444;"></div>
+                </div>
+            </div>
+            
+            <!-- Nutrition Info Box -->
+            <div class="qc-info">
+               ${nutritionInfo}
+            </div>
+        </div>
+      </div>
+    `;
 
   } catch (err) {
     console.error(err);
     resultDiv.innerHTML = "❌ Gagal memproses gambar";
   }
 };
+
+// --- VIDEO TUTORIAL LOGIC ---
+const videoOverlay = document.getElementById("videoOverlay");
+const tutorialVideo = document.getElementById("tutorial-video");
+
+if (videoOverlay && tutorialVideo) {
+  videoOverlay.addEventListener("click", () => {
+    videoOverlay.style.display = "none";
+    tutorialVideo.play();
+  });
+
+  tutorialVideo.addEventListener("ended", () => {
+    videoOverlay.style.display = "flex";
+    tutorialVideo.currentTime = 0;
+  });
+}
