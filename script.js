@@ -193,7 +193,7 @@ predictBtn.onclick = async () => {
     return;
   }
 
-  resultDiv.innerHTML = "⏳ Mengompres & Memproses...";
+  resultDiv.innerHTML = "⏳ Memproses...";
 
   try {
     // Resize image before sending to speed up
