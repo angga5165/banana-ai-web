@@ -155,6 +155,37 @@ clearBtn.addEventListener("click", () => {
   }
 });
 
+// --- HELPER: RESIZE IMAGE ---
+function resizeImage(file, maxWidth = 512) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        if (width > maxWidth) {
+          height *= maxWidth / width;
+          width = maxWidth;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob((blob) => {
+          resolve(blob);
+        }, 'image/jpeg', 0.8); // 80% quality jpeg
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 // --- PREDICTION LOGIC ---
 predictBtn.onclick = async () => {
   if (!currentFile) {
@@ -162,11 +193,14 @@ predictBtn.onclick = async () => {
     return;
   }
 
-  resultDiv.innerHTML = "⏳ Memproses...";
+  resultDiv.innerHTML = "⏳ Mengompres & Memproses...";
 
   try {
+    // Resize image before sending to speed up
+    const resizedBlob = await resizeImage(currentFile);
+
     const result = await client.predict("/classify_image", [
-      currentFile
+      resizedBlob
     ]);
 
     // PARSE HASIL & RENDER (Logic sebelumnya)
